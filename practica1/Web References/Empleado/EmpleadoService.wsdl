@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.mtis.org/NewWSDLFile/" name="EmpleadoService" targetNamespace="http://www.mtis.org/NewWSDLFile/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.mtis.org/NewWSDLFile/">
+      <xsd:element name="nuevo">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="DNI" type="xsd:string" />
+            <xsd:element name="Nombre" type="xsd:string" />
+            <xsd:element name="Apellidos" type="xsd:string" />
+            <xsd:element name="Direccion" type="xsd:string" />
+            <xsd:element name="Poblacion" type="xsd:string" />
+            <xsd:element name="Telefono" type="xsd:string" />
+            <xsd:element name="Email" type="xsd:string" />
+            <xsd:element name="Fecha_Nacimiento" type="xsd:date" />
+            <xsd:element name="NSS" type="xsd:string" />
+            <xsd:element name="IBAN" type="xsd:string" />
+            <xsd:element name="SoapKey" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="EmpleadoResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="salidaNuevoEmpleado" type="xsd:boolean" />
+            <xsd:element name="salidaErrores" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="NewType" />
+      <xsd:complexType name="NewType2" />
+      <xsd:element name="borrar">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="DNI" type="xsd:string" />
+            <xsd:element name="SoapKey" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="borrarResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="salidaBorradoEmpleado" type="xsd:boolean" />
+            <xsd:element name="salidaError" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="modificar">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="DNI" type="xsd:string" />
+            <xsd:element name="Nombre" type="xsd:string" />
+            <xsd:element name="Apellidos" type="xsd:string" />
+            <xsd:element name="Direccion" type="xsd:string" />
+            <xsd:element name="Poblacion" type="xsd:string" />
+            <xsd:element name="Telefono" type="xsd:string" />
+            <xsd:element name="Email" type="xsd:string" />
+            <xsd:element name="Fecha_nacimiento" type="xsd:date" />
+            <xsd:element name="NSS" type="xsd:string" />
+            <xsd:element name="IBAN" type="xsd:string" />
+            <xsd:element name="SoapKey" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="modificarResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="salidaModificarResponse" type="xsd:boolean" />
+            <xsd:element name="salidaError" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="consultar">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="DNI" type="xsd:string" />
+            <xsd:element name="SoapKey" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="consultarResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="DNI" type="xsd:string" />
+            <xsd:element name="Nombre" type="xsd:string" />
+            <xsd:element name="Apellidos" type="xsd:string" />
+            <xsd:element name="Direccion" type="xsd:string" />
+            <xsd:element name="Poblacion" type="xsd:string" />
+            <xsd:element name="Telefono" type="xsd:string" />
+            <xsd:element name="Email" type="xsd:string" />
+            <xsd:element name="Fecha_nacimiento" type="xsd:date" />
+            <xsd:element name="NSS" type="xsd:string" />
+            <xsd:element name="IBAN" type="xsd:string" />
+            <xsd:element name="salidaError" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="NewOperationRequest">
+    <wsdl:part name="parameters" element="tns:nuevo" />
+  </wsdl:message>
+  <wsdl:message name="borrarResponse">
+    <wsdl:part name="parameters" element="tns:borrarResponse" />
+  </wsdl:message>
+  <wsdl:message name="borrarRequest">
+    <wsdl:part name="parameters" element="tns:borrar" />
+  </wsdl:message>
+  <wsdl:message name="NewOperationResponse">
+    <wsdl:part name="parameters" element="tns:EmpleadoResponse" />
+  </wsdl:message>
+  <wsdl:message name="consultarResponse">
+    <wsdl:part name="parameters" element="tns:consultarResponse" />
+  </wsdl:message>
+  <wsdl:message name="modificarRequest">
+    <wsdl:part name="parameters" element="tns:modificar" />
+  </wsdl:message>
+  <wsdl:message name="consultarRequest">
+    <wsdl:part name="parameters" element="tns:consultar" />
+  </wsdl:message>
+  <wsdl:message name="modificarResponse">
+    <wsdl:part name="parameters" element="tns:modificarResponse" />
+  </wsdl:message>
+  <wsdl:portType name="EmpleadoService">
+    <wsdl:operation name="NewOperation">
+      <wsdl:input message="tns:NewOperationRequest" />
+      <wsdl:output message="tns:NewOperationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="borrar">
+      <wsdl:input message="tns:borrarRequest" />
+      <wsdl:output message="tns:borrarResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="modificar">
+      <wsdl:input message="tns:modificarRequest" />
+      <wsdl:output message="tns:modificarResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="consultar">
+      <wsdl:input message="tns:consultarRequest" />
+      <wsdl:output message="tns:consultarResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EmpleadoServiceSOAP" type="tns:EmpleadoService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="NewOperation">
+      <soap:operation soapAction="http://www.mtis.org/NewWSDLFile/NewOperation" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="borrar">
+      <soap:operation soapAction="http://www.mtis.org/NewWSDLFile/borrar" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modificar">
+      <soap:operation soapAction="http://www.mtis.org/NewWSDLFile/modificar" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="consultar">
+      <soap:operation soapAction="http://www.mtis.org/NewWSDLFile/consultar" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EmpleadoService">
+    <wsdl:port name="EmpleadoServiceSOAP" binding="tns:EmpleadoServiceSOAP">
+      <soap:address location="http://localhost:9080/Practica1/services/EmpleadoService/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
