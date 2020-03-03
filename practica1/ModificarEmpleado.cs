@@ -15,7 +15,6 @@ namespace practica1
         private int privateModificar = 0;
         private string restKey = "";
         
-        Empleado.EmpleadoService empleado = new Empleado.EmpleadoService();
         public ModificarEmpleado(string restKey)
         {
             InitializeComponent();
