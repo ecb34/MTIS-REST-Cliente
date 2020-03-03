@@ -26,7 +26,7 @@ namespace practica1
             string dni = textBox1.Text;
             string sala = textBox2.Text;
 
-            seguridad = new Seguridad.SeguridadClient("https://localhost:44308/api/");
+            seguridad = new Seguridad.SeguridadClient("https://localhost:44308/");
             var seguridadQuery = new Seguridad.Models.DeleteSeguridadQuery
             {
                 NIF = dni,
@@ -34,14 +34,21 @@ namespace practica1
                 RestKey = restKey
             };
             var response = await seguridad.Seguridad.Delete(seguridadQuery);
-            
-            if(response.Content == null)
+
+            try
             {
-                MessageBox.Show("Eliminado correctamente");
+                if (response.Content == null)
+                {
+                    MessageBox.Show("Eliminado correctamente");
+                }
+                else
+                {
+                    MessageBox.Show("Error: " + response.Content.Codigo + " " + response.Content.Mensaje);
+                }
             }
-            else
+            catch (Exception)
             {
-                MessageBox.Show("Error: " + response.Content.Codigo + " " + response.Content.Mensaje);
+               MessageBox.Show("Eliminado correctamente");
             }
         }
 

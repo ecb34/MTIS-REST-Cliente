@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,18 +43,26 @@ namespace practica1
 
             try
             {
-                if(res.Content.Ipbool.HasValue)
+                using (var contentStream = await res.RawContent.ReadAsStreamAsync())
                 {
-                    label3.Text = res.Content.Ipbool.Value ? "Usuario Validado" : "Usuario sin permiso";
-                }
-                else
-                {
-                    label3.Text = "Error:  " + res.Content.Error.Codigo + " " + res.Content.Error.Mensaje;
+                    contentStream.Seek(0, SeekOrigin.Begin);
+                    using (var sr = new StreamReader(contentStream))
+                    {
+                        var result = JsonConvert.DeserializeObject<Seguridad.Models.MultipleSeguridadGet>(sr.ReadToEnd());
+                        if (result.Ipbool.HasValue)
+                        {
+                            label3.Text = result.Ipbool.Value ? "Usuario Validado" : "Usuario sin permiso";
+                        }
+                        else
+                        {
+                            label3.Text = "Error:  " + result.Error.Codigo + " " + result.Error.Mensaje;
+                        }
+                    }
                 }
             }
             catch (Exception)
             {
-                label3.Text = "Error al validar";
+                label3.Text = "Error al validar usuario";
             }
         }
 

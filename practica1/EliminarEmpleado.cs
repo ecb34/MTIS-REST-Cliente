@@ -21,10 +21,9 @@ namespace practica1
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            var empleado = new Empleado.EmpleadoClient("https://localhost:44308/api/");
+            var empleado = new Empleado.EmpleadoClient("https://localhost:44308/");
 
             var res = await empleado.EmpleadoNif.Delete(textBox1.Text);
-
             try
             {
                 MessageBox.Show("Error: " + res.Content.Codigo + " " + res.Content.Mensaje);

@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using practica1.Utilidades.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +17,7 @@ namespace practica1
     {
         private string restKey = "";
 
-        private Utilidades.UtilidadesClient endpointUtilidades = new Utilidades.UtilidadesClient("https://localhost:44308/api/");
+        private Utilidades.UtilidadesClient endpointUtilidades = new Utilidades.UtilidadesClient("https://localhost:44308/");
         public AddEmpleado(string restKey)
         {
             InitializeComponent();
@@ -63,66 +66,90 @@ namespace practica1
 
         }
 
-        private async void button3_Click(object sender, EventArgs e)
+        private async Task CallValidarNIF()
         {
             try
             {
-                var res = await endpointUtilidades.UtilidadesValidarNIF.Get(new Utilidades.Models.GetUtilidadesValidarNIFQuery
+                var res = await endpointUtilidades.UtilidadesValidarNIF.Get(new GetUtilidadesValidarNIFQuery
                 {
                     Nif = textBox2.Text,
                     RestKey = restKey
                 });
-
-                if (res.Content.Ipbool.HasValue)
+                using (var contentStream = await res.RawContent.ReadAsStreamAsync())
                 {
-                    if (res.Content.Ipbool.Value)
+                    contentStream.Seek(0, SeekOrigin.Begin);
+                    using (var sr = new StreamReader(contentStream))
                     {
-                        mensajeValidacion.Text = "NIF válido";
-                        mensajeValidacion.BackColor = Color.Green;
+                        var result = JsonConvert.DeserializeObject<MultipleUtilidadesValidarNIFGet>(sr.ReadToEnd());
+                        if (result.Ipbool.HasValue)
+                        {
+                            if (result.Ipbool.Value)
+                            {
+                                mensajeValidacion.Text = "NIF válido";
+                                mensajeValidacion.BackColor = Color.Green;
+                            }
+                            else
+                            {
+                                mensajeValidacion.Text = "NIF inválido";
+                                mensajeValidacion.BackColor = Color.Red;
+                            }
+                        }
+                        else
+                        {
+                            mensajeValidacion.Text = "ERROR: " + result.Error.Codigo + " " + result.Error.Mensaje;
+                            mensajeValidacion.BackColor = Color.Red;
+                        }
                     }
-                    else
-                    {
-                        mensajeValidacion.Text = "NIF inválido";
-                        mensajeValidacion.BackColor = Color.Red;
-                    }
-                }
-                else
-                {
-                    mensajeValidacion.Text = "ERROR: " + res.Content.Error.Codigo + " " + res.Content.Error.Mensaje;
                 }
             }
             catch (Exception)
             {
                 mensajeValidacion.Text = "Error al validar";
-            }     
+                mensajeValidacion.BackColor = Color.Red;
+            }
+        }
+
+        private async void button3_Click(object sender, EventArgs e)
+        {
+            await CallValidarNIF();
+
         }
 
         private async void ValidarNSS_Click(object sender, EventArgs e)
         {
             try
             {
-                var res = await endpointUtilidades.UtilidadesValidarNAFSS.Get(new Utilidades.Models.GetUtilidadesValidarNAFSSQuery
+                var res = await endpointUtilidades.UtilidadesValidarNAFSS.Get(new GetUtilidadesValidarNAFSSQuery
                 {
                     Nif = textBox10.Text,
                     RestKey = restKey
                 });
 
-                if (res.Content.Ipbool.HasValue)
+                using (var contentStream = await res.RawContent.ReadAsStreamAsync())
                 {
-                    if (res.Content.Ipbool.Value)
+                    contentStream.Seek(0, SeekOrigin.Begin);
+                    using (var sr = new StreamReader(contentStream))
                     {
-                        mensajeValidacion.Text = "NSS válido";
-                        mensajeValidacion.BackColor = Color.Green;
+                        var result = JsonConvert.DeserializeObject<MultipleUtilidadesValidarNAFSSGet>(sr.ReadToEnd());
+                        if (result.Ipbool.HasValue)
+                        {
+                            if (result.Ipbool.Value)
+                            {
+                                mensajeValidacion.Text = "NSS válido";
+                                mensajeValidacion.BackColor = Color.Green;
+                            }
+                            else
+                            {
+                                mensajeValidacion.Text = "NSS inválido";
+                                mensajeValidacion.BackColor = Color.Red;
+                            }
+                        }
+                        else
+                        {
+                            mensajeValidacion.Text = "ERROR: " + result.Error.Codigo + " " + result.Error.Mensaje;
+                            mensajeValidacion.BackColor = Color.Red;
+                        }
                     }
-                    else
-                    {
-                        mensajeValidacion.Text = "NSS inválido";
-                        mensajeValidacion.BackColor = Color.Red;
-                    }
-                }
-                else
-                {
-                    mensajeValidacion.Text = "ERROR: " + res.Content.Error.Codigo + " " + res.Content.Error.Mensaje;
                 }
             }
             catch (Exception)
@@ -141,22 +168,31 @@ namespace practica1
                     RestKey = restKey
                 });
 
-                if (res.Content.Ipbool.HasValue)
+                using (var contentStream = await res.RawContent.ReadAsStreamAsync())
                 {
-                    if (res.Content.Ipbool.Value)
+                    contentStream.Seek(0, SeekOrigin.Begin);
+                    using (var sr = new StreamReader(contentStream))
                     {
-                        mensajeValidacion.Text = "IBAN válido";
-                        mensajeValidacion.BackColor = Color.Green;
+                        var result = JsonConvert.DeserializeObject<MultipleUtilidadesValidarIBANGet>(sr.ReadToEnd());
+                        if (result.Ipbool.HasValue)
+                        {
+                            if (result.Ipbool.Value)
+                            {
+                                mensajeValidacion.Text = "IBAN válido";
+                                mensajeValidacion.BackColor = Color.Green;
+                            }
+                            else
+                            {
+                                mensajeValidacion.Text = "IBAN inválido";
+                                mensajeValidacion.BackColor = Color.Red;
+                            }
+                        }
+                        else
+                        {
+                            mensajeValidacion.Text = "ERROR: " + result.Error.Codigo + " " + result.Error.Mensaje;
+                            mensajeValidacion.BackColor = Color.Red;
+                        }
                     }
-                    else
-                    {
-                        mensajeValidacion.Text = "IBAN inválido";
-                        mensajeValidacion.BackColor = Color.Red;
-                    }
-                }
-                else
-                {
-                    mensajeValidacion.Text = "ERROR: " + res.Content.Error.Codigo + " " + res.Content.Error.Mensaje;
                 }
             }
             catch (Exception)

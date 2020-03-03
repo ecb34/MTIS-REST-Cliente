@@ -35,7 +35,7 @@ namespace practica1
 
         private async void button3_Click(object sender, EventArgs e)
         {
-            var endpoint = new Empleado.EmpleadoClient("https://localhost:44308/api/");
+            var endpoint = new Empleado.EmpleadoClient("https://localhost:44308/");
 
             var res = await endpoint.EmpleadoNif.Get(textBox1.Text);
 

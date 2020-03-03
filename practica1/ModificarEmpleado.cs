@@ -52,7 +52,7 @@ namespace practica1
             textBox11.Enabled = true;
         }
 
-        private async Task button1_ClickAsync(object sender, EventArgs e)
+        private async void button1_ClickAsync(object sender, EventArgs e)
         {
             if (privateModificar == 0)
             {
@@ -61,7 +61,7 @@ namespace practica1
                 privateModificar++;
             }else
             {
-                var empleado = new Empleado.EmpleadoClient("https://localhost:44308/api/");
+                var empleado = new Empleado.EmpleadoClient("https://localhost:44308/");
 
                 privateModificar = 0;
 
@@ -95,9 +95,9 @@ namespace practica1
             }
         }
 
-        private async void button3_Click(object sender, EventArgs e)
+        private async void button3_ClickAsync(object sender, EventArgs e)
         {
-            var endpoint = new Empleado.EmpleadoClient("https://localhost:44308/api/");
+            var endpoint = new Empleado.EmpleadoClient("https://localhost:44308/");
 
             var res = await endpoint.EmpleadoNif.Get(textBox1.Text);
 
